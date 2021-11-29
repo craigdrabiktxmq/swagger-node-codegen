@@ -1,9 +1,9 @@
-import { ServerRoute } from "@hapi/hapi";
-import { inject, injectable } from "inversify";
-import { TYPES } from "../ioc/types";
-import { HapiController } from "./hapi-controller";
+import { ServerRoute } from '@hapi/hapi'
+import { inject, injectable } from 'inversify'
+import { TYPES } from '../ioc/types'
+import { HapiController } from './hapi-controller'
 {{#each swagger.endpoints}}
-import { {{capitalize this}}Controller } from "./{{this}}.controller";
+import { {{pascalCase this}}Controller } from './{{lowercase this}}.controller'
 {{/each}}
 /**
  * This class is automatically generated from swagger.  It is safe to overwrite an existing file with this one.
@@ -21,8 +21,8 @@ import { {{capitalize this}}Controller } from "./{{this}}.controller";
 @injectable()
 class Controllers {
     {{#each swagger.endpoints}}
-    @inject(TYPES.{{capitalize this}}Controller)
-    private {{capitalize this}}Controller?: {{capitalize this}}Controller;
+    @inject(TYPES.{{pascalCase this}}Controller)
+    private {{camelCase this}}Controller?: {{pascalCase this}}Controller
 
     {{/each}}
     /**
@@ -33,7 +33,7 @@ class Controllers {
      * This is invoked in ApiServer during HAPI startup.
      */
     public getRoutes(): Array<ServerRoute> {
-        return HapiController.getRoutes();
+        return HapiController.getRoutes()
     }
 }
 
